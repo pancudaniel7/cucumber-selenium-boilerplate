@@ -12,24 +12,25 @@ import java.util.List;
 
 public class DriverManager {
 
-    private WebDriver driver;
+    private static final WebDriver driver;
+
+    static {
+        System.setProperty("webdriver.chrome.driver", "/opt/homebrew/bin/chromedriver");
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+    }
 
     public static WebDriver driver() {
-        System.setProperty("webdriver.chrome.driver", "/opt/homebrew/bin/chromedriver");
-
-        DriverManager driverManager = new DriverManager();
-        driverManager.driver = new ChromeDriver();
-        driverManager.driver.manage().window().maximize();
-        return driverManager.driver;
+        return driver;
     }
 
-    public void waitForElement(WebElement element) {
+    public static void waitForElement(WebDriver driver, WebElement element) {
         //Generic wait script which can be used for all elements.
         //If you want to wait for more than 10 seconds, you can use the function beneath this one.
-        waitForElement(element, 10);
+        waitForElement(driver, element, 10);
     }
 
-    public void waitForElement(WebElement element, long seconds) {
+    public static void waitForElement(WebDriver driver, WebElement element, long seconds) {
         //Overloading of method waitForElement, when you know an element takes more then 10 seconds to load.
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
         try {
@@ -40,7 +41,7 @@ public class DriverManager {
         }
     }
 
-    public void waitForElements(List<WebElement> elementList) {
+    public static void waitForElements(WebDriver driver, List<WebElement> elementList) {
         //Generic wait script which can be used for all list elements.
         //Waits for max 10 seconds
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
