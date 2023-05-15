@@ -2,26 +2,31 @@ package utils;
 
 import org.junit.Assert;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
 import java.time.Duration;
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 
-public class Waits {
+public class DriverManager {
 
-    public WebDriver driver;
+    private WebDriver driver;
 
-    public Waits(WebDriver driver) {
-        this.driver = driver;
+    public static WebDriver driver() {
+        System.setProperty("webdriver.chrome.driver", "/opt/homebrew/bin/chromedriver");
+
+        DriverManager driverManager = new DriverManager();
+        driverManager.driver = new ChromeDriver();
+        driverManager.driver.manage().window().maximize();
+        return driverManager.driver;
     }
 
     public void waitForElement(WebElement element) {
         //Generic wait script which can be used for all elements.
         //If you want to wait for more than 10 seconds, you can use the function beneath this one.
-       waitForElement(element, 10);
+        waitForElement(element, 10);
     }
 
     public void waitForElement(WebElement element, long seconds) {
@@ -35,13 +40,13 @@ public class Waits {
         }
     }
 
-    public void waitForElements(List<WebElement> elementList){
+    public void waitForElements(List<WebElement> elementList) {
         //Generic wait script which can be used for all list elements.
         //Waits for max 10 seconds
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        try{
+        try {
             wait.until(ExpectedConditions.visibilityOfAllElements(elementList));
-        } catch (NoSuchElementException | TimeoutException | StaleElementReferenceException e ){
+        } catch (NoSuchElementException | TimeoutException | StaleElementReferenceException e) {
             Assert.fail("Element not found on page: " + elementList);
         }
     }
