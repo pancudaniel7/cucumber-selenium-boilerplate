@@ -4,6 +4,9 @@ import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
@@ -21,9 +24,9 @@ public class Waits {
        waitForElement(element, 10);
     }
 
-    public void waitForElement(WebElement element, int seconds) {
+    public void waitForElement(WebElement element, long seconds) {
         //Overloading of method waitForElement, when you know an element takes more then 10 seconds to load.
-        WebDriverWait wait = new WebDriverWait(driver, seconds);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
         try {
             wait.until(ExpectedConditions.visibilityOf(element));
         } catch (NoSuchElementException | TimeoutException | StaleElementReferenceException e) {
@@ -35,7 +38,7 @@ public class Waits {
     public void waitForElements(List<WebElement> elementList){
         //Generic wait script which can be used for all list elements.
         //Waits for max 10 seconds
-        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         try{
             wait.until(ExpectedConditions.visibilityOfAllElements(elementList));
         } catch (NoSuchElementException | TimeoutException | StaleElementReferenceException e ){

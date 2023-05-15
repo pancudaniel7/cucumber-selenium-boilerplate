@@ -23,7 +23,7 @@ public class FileUtils {
             try {
                 byte[] screenshot = ((TakesScreenshot) driver)
                         .getScreenshotAs(OutputType.BYTES);
-                scenario.embed(screenshot, "image/png", nameScreenshot); //stick it in the report
+
                 try {
                     File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
                     org.apache.commons.io.FileUtils.copyFile(screenshotFile, new File(targetPath));
